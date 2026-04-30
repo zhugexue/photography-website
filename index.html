@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Unique Vision | 沁雪 - 视觉创作者</title>
+    <title>Unique Vision | 李七 - 视觉创作者</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -122,21 +122,73 @@
         .work-card:hover img { transform: scale(1.05); }
 
         @media (max-width: 768px) {
-            nav { padding: 20px 6%; }
-            .menu-toggle { display: flex; }
-            .nav-links {
-                position: fixed; top: 0; right: -100%; width: 85%; height: 100vh;
-                background: #0a0a0a; flex-direction: column; justify-content: center; transition: var(--transition-smooth); gap: 30px;
-            }
-            .nav-links.active { right: 0; }
-            .nav-item { font-size: 1.2rem; }
-            .nav-item.highlight:hover { background: var(--accent); color: #fff; } /* 移动端保持彩色提示 */
-            .nav-item.highlight:hover span { color: #fff; }
-            .hero { background-attachment: scroll; }
-            .about-grid { grid-template-columns: 1fr; }
-            .work-grid { column-count: 1; }
-        }
+    nav { padding: 18px 6%; }
+    
+    /* 汉堡按钮线条优化：更细致 */
+    .menu-toggle span { width: 22px; height: 1.5px; }
 
+    .nav-links {
+        position: fixed; 
+        top: 0; 
+        right: -100%; 
+        width: 100%; /* 全屏覆盖，增加沉浸感 */
+        height: 100vh;
+        background: radial-gradient(circle at top right, #151515, #050505); /* 增加渐变层次 */
+        flex-direction: column;
+        justify-content: center;
+        gap: 35px;
+        transition: var(--transition-smooth);
+        z-index: 1000;
+    }
+
+    .nav-links.active { right: 0; }
+
+    .nav-item {
+        font-size: 1.4rem; /* 增大字号 */
+        font-weight: 600;
+        letter-spacing: 4px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+    }
+
+    /* 菜单展开时的文字入场动画 */
+    .nav-links.active .nav-item {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* 依次延迟显示 */
+    .nav-item:nth-child(1) { transition-delay: 0.1s; }
+    .nav-item:nth-child(2) { transition-delay: 0.2s; }
+    .nav-item:nth-child(3) { transition-delay: 0.3s; }
+    .nav-item:nth-child(4) { transition-delay: 0.4s; }
+    .nav-item:nth-child(5) { transition-delay: 0.5s; }
+
+    .nav-item span {
+        font-size: 0.85rem;
+        margin-top: 8px;
+        opacity: 0.4;
+    }
+
+    /* 移动端高亮项：去掉厚重的边框，改为色彩点缀 */
+    .nav-item.highlight {
+        background: transparent;
+        border: none;
+        padding: 0;
+        color: var(--accent); /* 直接用强调色区别 */
+    }
+    
+    .nav-item.highlight span {
+        color: var(--text-dim);
+    }
+
+    /* 移动端点击反馈 */
+    .nav-item:active {
+        transform: scale(0.95);
+        color: var(--accent);
+    }
+}
         .modal {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center;
         }
@@ -162,7 +214,7 @@
     </nav>
 
     <section class="hero" id="home">
-        <h1>用光影<br>缝补时间的裂缝</h1>
+        <h1>用光影<br>縫補時間的裂縫</h1>
     </section>
 
     <section class="section" id="about">
@@ -172,9 +224,9 @@
             </div>
             <div class="about-text">
                 <p style="color:var(--accent); font-weight:600; font-size:0.8rem; letter-spacing:4px; margin-bottom:10px;">PROFILO</p>
-                <h2 style="font-family:'Noto Serif SC'; font-size:2.5rem; margin-bottom:20px;">沁雪 / SEVEN</h2>
-                <p>视觉创作者。现居苏州。</p>
-                <p>专注于捕捉城市中被忽视的呼吸感。在宁缺毋滥的原则下，每一帧画面都是对当下生活的一次诚实反馈。</p>
+                <h2 style="font-family:'Noto Serif SC'; font-size:2.5rem; margin-bottom:20px;">李七 / SEVEN</h2>
+                <p>視覺創作者。現居東京。</p>
+                <p>專注於捕捉城市中被忽視的呼吸感。在寧缺毋濫的原則下，每一幀畫面都是對當下生活的一次誠實反饋。</p>
             </div>
         </div>
     </section>
@@ -196,7 +248,6 @@
             {src: "assets/images/IMG5.jpg"}, {src: "assets/images/IMG6.jpg"},
             {src: "assets/images/IMG7.jpg"}, {src: "assets/images/IMG8.jpg"},
             {src: "assets/images/IMG9.jpg"}, {src: "assets/images/IMG10.jpg"}
-            
         ];
 
         const grid = document.getElementById('workGrid');
