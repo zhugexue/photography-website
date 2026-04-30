@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄影 | Unique Vision | 李七</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #ff3e00;
+            --text: #ffffff;
+            --text-dim: rgba(255,255,255,0.8);
+            --nav-bg: rgba(8,8,8,0.96);
+            --transition: all 0.85s cubic-bezier(0.23,1,0.32,1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 32px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: var(--nav-bg); backdrop-filter: blur(24px);
+            transition: var(--transition);
+        }
+        nav.scrolled { padding: 20px 8%; }
+
+        .logo { 
+            font-family: 'Noto Serif SC', serif; 
+            font-size: 1.52rem; 
+            letter-spacing: 5px; 
+            color: #fff; 
+            text-decoration: none; 
+        }
+
+        .nav-links { display: flex; gap: 42px; }
+        .nav-item {
+            font-size: 0.84rem; 
+            letter-spacing: 3.5px; 
+            color: var(--text-dim);
+            text-decoration: none; 
+            position: relative;
+        }
+        .nav-item:hover, .nav-item.active { color: var(--accent); }
+        .nav-item::after {
+            content: ''; position: absolute; bottom: -7px; left: 0; 
+            width: 0; height: 2px; background: var(--accent); transition: width 0.4s;
+        }
+
+        .back-btn { color: var(--accent); text-decoration: none; font-weight: 500; }
+
+        .hero {
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.85)), url('assets/images/IMG1.jpg') center/cover no-repeat;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif; 
+            font-size: clamp(3.3rem, 8.5vw, 5.8rem); 
+            line-height: 1.05; 
+        }
+
+        .section { padding: 150px 8% 130px; }
+
+        /* 中文分类筛选 - 更圆润 */
+        .filter-btns {
+            display: flex; 
+            justify-content: center; 
+            gap: 24px; 
+            margin-bottom: 90px; 
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 14px 36px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.28);
+            color: var(--text-dim);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.4s;
+        }
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* 优化瀑布流 - 纯图片 + 更大圆角（丸子感） */
+        .work-grid {
+            column-count: 3;
+            column-gap: 60px;
+        }
+        .work-card {
+            break-inside: avoid;
+            margin-bottom: 60px;
+            overflow: hidden; 
+            border-radius: 36px;           /* 更大圆角，丸子感 */
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+        }
+        .work-card:hover { 
+            transform: translateY(-12px); 
+            box-shadow: 0 20px 50px rgba(255,62,0,0.25);
+        }
+        .work-card img {
+            width: 100%; 
+            height: auto; 
+            display: block;
+            transition: transform 1.4s ease;
+        }
+        .work-card:hover img { 
+            transform: scale(1.06); 
+        }
+
+        /* 全屏模态框 - 文字在图片下方，字体小 */
+        .modal {
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.98); 
+            z-index: 2000; 
+            align-items: center; 
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            max-width: 96%; 
+            max-height: 96vh; 
+            position: relative;
+        }
+        .modal-img {
+            width: 100%; 
+            max-height: 82vh; 
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        .modal-info {
+            margin-top: 34px;
+            text-align: center;
+        }
+        .modal-title {
+            font-size: 1.22rem;           /* 缩小字体 */
+            font-weight: 500;
+            letter-spacing: 3px;          /* 加大字间距 */
+            color: var(--text);
+        }
+        .modal-close {
+            position: absolute; 
+            top: -65px; 
+            right: 20px; 
+            font-size: 3.6rem; 
+            color: #fff; 
+            cursor: pointer; 
+            z-index: 10;
+        }
+
+        footer {
+            padding: 140px 8% 100px; 
+            text-align: center; 
+            color: var(--text-dim); 
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 1024px) { .work-grid { column-count: 2; } }
+        @media (max-width: 768px) { 
+            .nav-links { display: none; }
+            .work-grid { column-count: 1; }
+            .filter-btns { gap: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="mainNav">
+        <a href="index.html" class="logo">UNIQUE VISION.</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">HOME / 首页</a>
+            <a href="index.html#about" class="nav-item">ABOUT / 关于</a>
+            <a href="index.html#works" class="nav-item">WORKS / 作品</a>
+            <a href="photography.html" class="nav-item active">PHOTOGRAPHY / 摄影</a>
+            <a href="video.html" class="nav-item">VIDEO / 视频</a>
+        </div>
+        <a href="index.html" class="back-btn">← BACK</a>
+    </nav>
+
+    <section class="hero">
+        <div>
+            <h1>静止的叙事</h1>
+        </div>
+    </section>
+
+    <section class="section">
+        <div style="text-align:center; margin-bottom:80px;">
+            <h2 style="font-family:'Noto Serif SC',serif; font-size:3.4rem;">摄影</h2>
+        </div>
+
+        <div class="filter-btns" id="filterBtns">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="street">街头</button>
+            <button class="filter-btn" data-filter="portrait">人物</button>
+            <button class="filter-btn" data-filter="landscape">风景</button>
+        </div>
+
+        <div class="work-grid" id="photoGrid"></div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <img id="modalImage" class="modal-img" src="" alt="">
+            <div class="modal-info">
+                <div id="modalTitle" class="modal-title"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Unique Vision • 李七<br>
+        Tokyo
+    </footer>
+
+    <script>
+        const photos = [
+            {src: "assets/images/IMG1.jpg", title: "东京的呼吸", category: "street"},
+            {src: "assets/images/IMG2.jpg", title: "光影中的器物", category: "landscape"},
+            {src: "assets/images/IMG3.jpg", title: "日常的诗意", category: "portrait"},
+            {src: "assets/images/IMG4.jpg", title: "城市节奏", category: "street"},
+            {src: "assets/images/IMG5.jpg", title: "静止的叙事", category: "landscape"},
+            {src: "assets/images/IMG6.jpg", title: "瞬间的温度", category: "portrait"},
+            {src: "assets/images/IMG__1.jpg", title: "系列之一", category: "street"},
+            {src: "assets/images/IMG__2.jpg", title: "系列之二", category: "landscape"},
+            {src: "assets/images/IMG__3.jpg", title: "系列之三", category: "portrait"},
+            {src: "assets/images/IMG__4.jpg", title: "系列之四", category: "street"},
+            {src: "assets/images/IMG__5.jpg", title: "系列之五", category: "landscape"},
+            {src: "assets/images/IMG__6.jpg", title: "系列之六", category: "portrait"}
+        ];
+
+        let currentIndex = 0;
+        let currentFiltered = photos;
+
+        function renderPhotos(filtered) {
+            currentFiltered = filtered;
+            const grid = document.getElementById('photoGrid');
+            grid.innerHTML = '';
+            filtered.forEach((photo, index) => {
+                const card = document.createElement('div');
+                card.className = 'work-card';
+                card.innerHTML = `<img src="${photo.src}" alt="" loading="lazy">`;
+                card.onclick = () => showModal(index);
+                grid.appendChild(card);
+            });
+        }
+
+        function showModal(index) {
+            currentIndex = index;
+            const p = currentFiltered[index];
+            document.getElementById('modalImage').src = p.src;
+            document.getElementById('modalTitle').textContent = p.title;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                const filtered = filter === 'all' ? photos : photos.filter(p => p.category === filter);
+                renderPhotos(filtered);
+            });
+        });
+
+        document.addEventListener('keydown', e => {
+            if (document.getElementById('modal').style.display === 'flex') {
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    currentIndex = (e.key === 'ArrowRight') 
+                        ? (currentIndex + 1) % currentFiltered.length 
+                        : (currentIndex - 1 + currentFiltered.length) % currentFiltered.length;
+                    const p = currentFiltered[currentIndex];
+                    document.getElementById('modalImage').src = p.src;
+                    document.getElementById('modalTitle').textContent = p.title;
+                }
+            }
+        });
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        window.onload = () => renderPhotos(photos);
+    </script>
+</body>
+</html>

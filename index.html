@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique Vision | 李七 - 视觉创作者</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #ff3e00;
+            --text: #ffffff;
+            --text-dim: rgba(255,255,255,0.6);
+            --nav-bg: rgba(5,5,5,0.85);
+            --transition-smooth: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            --card-radius: 24px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* 導航優化 - 增加通透感與聯動性 */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 40px 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: var(--transition-smooth);
+            backdrop-filter: blur(0px);
+        }
+        nav.scrolled { 
+            padding: 20px 6%; 
+            background: var(--nav-bg); 
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo { 
+            font-family: 'Noto Serif SC', serif; 
+            font-size: 1.2rem; 
+            letter-spacing: 6px; 
+            color: #fff; 
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-item {
+            font-size: 0.75rem; 
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            text-decoration: none; 
+            text-transform: uppercase;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-item span.cn {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            margin-top: 2px;
+            opacity: 0.7;
+        }
+        .nav-item:hover, .nav-item.active { color: var(--text); }
+        .nav-item:hover span.cn { opacity: 1; }
+
+        /* 特殊樣式：子頁面按鈕 */
+        .nav-item.highlight {
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+        }
+        .nav-item.highlight:hover {
+            border-color: var(--accent);
+            background: rgba(255, 62, 0, 0.05);
+        }
+
+        /* Hero - 沉浸式敘事 */
+        .hero {
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 10%;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/images/IMG1.jpg') center/cover no-repeat;
+            position: relative;
+        }
+        .hero-content { max-width: 800px; }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif; 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            line-height: 1.4; 
+            letter-spacing: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInBlur 1.5s forwards 0.5s;
+        }
+
+        @keyframes fadeInBlur {
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* About - 比例微調，增加留白 */
+        .section { padding: 120px 10%; }
+        .about-grid {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 120px; 
+            align-items: center;
+        }
+        .about-img-container {
+            position: relative;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+        }
+        .about-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+        .about-text h2 {
+            font-family: 'Noto Serif SC', serif; 
+            font-size: 2.4rem; 
+            letter-spacing: 4px; 
+            margin-bottom: 30px;
+        }
+        .about-text p {
+            font-size: 1rem; 
+            color: var(--text-dim); 
+            margin-bottom: 24px;
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        /* Works - 瀑布流自適應優化 */
+        .works-header { text-align: left; margin-bottom: 60px; border-left: 3px solid var(--accent); padding-left: 20px; }
+        .section-title { 
+            font-family: 'Noto Serif SC', serif; 
+            font-size: 1.8rem; 
+            letter-spacing: 6px;
+        }
+
+        .work-grid {
+            column-count: 3;
+            column-gap: 40px;
+        }
+        .work-card {
+            break-inside: avoid;
+            margin-bottom: 40px;
+            position: relative;
+            border-radius: var(--card-radius);
+            overflow: hidden; 
+            background: #111;
+            cursor: pointer;
+        }
+        .work-card img {
+            width: 100%; height: auto; display: block;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .work-card:hover img { transform: scale(1.08); }
+
+        /* 全屏模態框 - 極致簡潔 */
+        .modal {
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            z-index: 2000; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .modal.active { display: flex; opacity: 1; }
+        .modal-content {
+            width: 90%; 
+            height: 80vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-img {
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain;
+            user-select: none;
+        }
+        .modal-info {
+            position: absolute;
+            bottom: 40px;
+            text-align: center;
+        }
+        .modal-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+        }
+        .modal-close {
+            position: absolute; top: 40px; right: 40px; 
+            font-size: 2rem; cursor: pointer; font-weight: 200;
+        }
+
+        /* Footer - 力量感排版 */
+        footer {
+            padding: 120px 10% 80px; 
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .contact-trigger {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 60px;
+            letter-spacing: 4px;
+            display: block;
+            text-decoration: none;
+            color: var(--text);
+            transition: color 0.4s;
+        }
+        .contact-trigger:hover { color: var(--accent); }
+
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; }
+        .social-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .social-links a:hover { color: var(--text); }
+
+        @media (max-width: 1100px) { .work-grid { column-count: 2; } .about-grid { gap: 60px; } }
+        @media (max-width: 768px) { 
+            nav { padding: 25px 8%; }
+            .nav-links { display: none; }
+            .work-grid { column-count: 1; }
+            .about-grid { grid-template-columns: 1fr; }
+            .hero { padding: 0 8%; }
+            .section { padding: 80px 8%; }
+            .modal-close { top: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="mainNav">
+        <a href="#" class="logo">UNIQUE VISION.</a>
+        <div class="nav-links">
+            <a href="#home" class="nav-item highlight">Home/首頁</span></a>
+            <a href="#about" class="nav-item highlight">About/关于</span></a>
+            <a href="#works" class="nav-item highlight">Works/选集</span></a>
+            <a href="photography.html" class="nav-item highlight">Photography/摄影</span></a>
+            <a href="video.html" class="nav-item highlight">Video/摄像</span></a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>用光影<br>縫補時間的裂縫</h1>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="about-grid">
+            <div class="about-img-container">
+                <img src="assets/images/hq.png" class="about-img" alt="李七 Profile">
+            </div>
+            <div class="about-text">
+                <p style="color:var(--accent); font-weight:600; font-size:0.8rem; letter-spacing:4px; margin-bottom:10px;">PROFILO</p>
+                <h2>李七 / SEVEN</h2>
+                <p>視覺創作者。現居東京。</p>
+                <p>專注於捕捉城市中被忽視的呼吸感。我認為影像不只是記錄，而是一種更深刻的「凝視」。在寧缺毋濫的創作原則下，每一幀畫面都是對當下生活的一次誠實反饋。</p>
+                <p>擅長平面攝影、短片導演及視覺方案設計。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works Section -->
+    <section class="section" id="works">
+        <div class="works-header">
+            <h2 class="section-title">Selected Works / 作品選集</h2>
+        </div>
+        <div class="work-grid" id="workGrid">
+            <!-- JS 渲染 -->
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <span class="modal-close" onclick="closeModal()">✕</span>
+        <div class="modal-content">
+            <img id="modalImage" class="modal-img" src="" alt="">
+        </div>
+        <div class="modal-info">
+            <div id="modalTitle" class="modal-title"></div>
+        </div>
+    </div>
+
+    <!-- Contact Footer -->
+    <footer>
+        <a href="mailto:hello@uniquevision.jp" class="contact-trigger">
+            開始一段視覺對話 →
+        </a>
+        
+        <div class="social-links">
+            <a href="#">Weibo / 微博</a>
+            <a href="#">Douyin/抖音</a>
+            <a href="*" target="_blank">Weixin/微信</a>
+        </div>
+
+        <p style="color:var(--text-dim); font-size:0.65rem; letter-spacing:2px; text-transform:uppercase;">
+            © 2026 UNIQUE VISION • SEVEN LI<br>
+            All rights reserved / Based in Tokyo
+        </p>
+    </footer>
+
+    <script>
+        const works = [
+            {src: "assets/images/IMG1.jpg", title: "東京呼吸 / Tokyo Breath"},
+            {src: "assets/images/IMG2.jpg", title: "光影器物 / Light & Object"},
+            {src: "assets/images/IMG3.jpg", title: "日常詩意 / Daily Poetics"},
+            {src: "assets/images/IMG4.jpg", title: "城市節奏 / Urban Rhythm"},
+            {src: "assets/images/IMG5.jpg", title: "靜止敘事 / Static Narrative"},
+            {src: "assets/images/IMG6.jpg", title: "瞬間溫度 / Instant Temperature"}
+        ];
+
+        let currentIndex = 0;
+
+        function renderWorks() {
+            const grid = document.getElementById('workGrid');
+            grid.innerHTML = works.map((work, index) => `
+                <div class="work-card" onclick="showModal(${index})">
+                    <img src="${work.src}" alt="${work.title}" loading="lazy">
+                </div>
+            `).join('');
+        }
+
+        function showModal(index) {
+            currentIndex = index;
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImg.src = works[index].src;
+            modalTitle.textContent = works[index].title;
+            
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden'; // 鎖定滾動
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 500);
+        }
+
+        // 快捷鍵支持
+        document.addEventListener('keydown', e => {
+            if (!document.getElementById('modal').classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') navigateModal(1);
+            if (e.key === 'ArrowLeft') navigateModal(-1);
+        });
+
+        function navigateModal(step) {
+            currentIndex = (currentIndex + step + works.length) % works.length;
+            const modalImg = document.getElementById('modalImage');
+            modalImg.style.opacity = 0;
+            setTimeout(() => {
+                modalImg.src = works[currentIndex].src;
+                document.getElementById('modalTitle').textContent = works[currentIndex].title;
+                modalImg.style.opacity = 1;
+            }, 200);
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('scrolled', window.scrollY > 100);
+        });
+
+        window.onload = renderWorks;
+    </script>
+</body>
+</html>
