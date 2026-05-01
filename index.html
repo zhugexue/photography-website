@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Unique Vision | 沁雪 - 视觉创作者</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Unique Vision | 李七 - 视觉创作者</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #050505;
             --accent: #ff3e00;
             --text: #ffffff;
-            --text-dim: rgba(255,255,255,0.7);
-            --nav-bg: rgba(5,5,5,0.98);
+            --text-dim: rgba(255,255,255,0.6);
+            --nav-bg: rgba(5,5,5,0.95);
             --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             --card-radius: 20px;
         }
@@ -27,174 +27,146 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- 导航栏修复版 --- */
+        /* --- 导航栏优化 --- */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 40px 6%;
+            position: fixed; top: 0; width: 100%; padding: 30px 6%;
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000; transition: var(--transition-smooth);
         }
         nav.scrolled { 
-            padding: 18px 6%; 
+            padding: 15px 6%; 
             background: var(--nav-bg); 
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .logo { 
             font-family: 'Noto Serif SC', serif; 
-            font-size: 1.4rem; 
-            letter-spacing: 5px; 
+            font-size: 1.1rem; 
+            letter-spacing: 4px; 
             color: #fff; 
             text-decoration: none;
             font-weight: 700;
             z-index: 1001;
         }
 
+        /* 移动端汉堡按钮 */
         .menu-toggle {
-            display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1001; padding: 10px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
         }
-        .menu-toggle span { width: 26px; height: 2px; background: #fff; transition: var(--transition-smooth); }
+        .menu-toggle span {
+            width: 24px;
+            height: 1.5px;
+            background: #fff;
+            transition: var(--transition-smooth);
+        }
 
-        .nav-links { display: flex; gap: 40px; align-items: center; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
         .nav-item {
-            font-size: 0.95rem; 
-            font-weight: 600; /* 加粗笔画提高辨识度 */
-            letter-spacing: 2px;
+            font-size: 0.75rem; 
+            letter-spacing: 1.5px;
             color: var(--text-dim);
             text-decoration: none; 
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            display: flex; flex-direction: column; align-items: center;
-            position: relative;
+            transition: var(--transition-smooth);
+            text-align: center;
         }
-        .nav-item span { 
-            font-size: 0.75rem; font-weight: 400; letter-spacing: 2px; margin-top: 4px; opacity: 0.6; transition: 0.3s;
-        }
+        .nav-item span { display: block; font-size: 0.6rem; opacity: 0.6; margin-top: 2px; }
+        .nav-item:hover { color: var(--text); }
 
-        /* 普通项悬停 */
-        .nav-item:hover { color: #fff; }
-        .nav-item:hover span { opacity: 1; color: var(--accent); }
-        .nav-item:not(.highlight)::after {
-            content: ''; position: absolute; bottom: -8px; width: 0; height: 2px; background: var(--accent); transition: width 0.3s ease;
-        }
-        .nav-item:not(.highlight):hover::after { width: 100%; }
-
-        /* --- 修复：摄影与视频栏文字消失问题 --- */
-        .nav-item.highlight {
-            background: rgba(255,255,255,0.1); 
-            padding: 10px 24px; 
-            border-radius: 4px; 
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff; /* 初始文字白色 */
-        }
-        .nav-item.highlight span { opacity: 0.8; color: #fff; }
-
-        .nav-item.highlight:hover { 
-            background: #fff; /* 悬停变为纯白背景 */
-            color: #000;      /* 关键：悬停时文字变为黑色，确保可见 */
-            border-color: #fff;
-        }
-        .nav-item.highlight:hover span { 
-            color: #000;      /* 关键：中文副标题同步变黑 */
-            opacity: 0.7;
-        }
-
-        /* --- Hero & Sections --- */
+        /* --- Hero 响应式 --- */
         .hero {
-            height: 100vh; display: flex; align-items: center; padding: 0 10%;
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 10%;
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('assets/images/IMG1.jpg') center/cover no-repeat;
             background-attachment: fixed;
         }
         .hero h1 {
-            font-family: 'Noto Serif SC', serif; font-size: clamp(2.2rem, 7vw, 4.5rem); line-height: 1.4; letter-spacing: 8px;
+            font-family: 'Noto Serif SC', serif; 
+            font-size: clamp(2rem, 8vw, 4rem); 
+            line-height: 1.5; 
+            letter-spacing: 6px;
         }
 
-        .section { padding: 120px 10%; }
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .about-img-container { border-radius: var(--card-radius); overflow: hidden; aspect-ratio: 4/5; }
+        /* --- 布局优化 --- */
+        .section { padding: 100px 10%; }
+        .about-grid {
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 80px; 
+            align-items: center;
+        }
+        .about-img-container {
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            aspect-ratio: 3 / 4;
+        }
         .about-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .work-grid { column-count: 3; column-gap: 30px; }
-        .work-card {
-            break-inside: avoid; margin-bottom: 30px; border-radius: var(--card-radius); overflow: hidden; background: #111; cursor: pointer;
+        .about-text h2 { font-family: 'Noto Serif SC', serif; font-size: 2.2rem; margin-bottom: 25px; }
+
+        /* --- 作品瀑布流 --- */
+        .work-grid {
+            column-count: 3;
+            column-gap: 30px;
         }
-        .work-card img { width: 100%; display: block; transition: transform 0.8s ease; }
-        .work-card:hover img { transform: scale(1.05); }
+        .work-card {
+            break-inside: avoid;
+            margin-bottom: 30px;
+            border-radius: var(--card-radius);
+            overflow: hidden; 
+            cursor: pointer;
+        }
+        .work-card img { width: 100%; display: block; transition: transform 1s ease; }
+        .work-card:active img { transform: scale(0.96); }
 
+        /* --- 移动端适配核心 --- */
         @media (max-width: 768px) {
-    nav { padding: 18px 6%; }
-    
-    /* 汉堡按钮线条优化：更细致 */
-    .menu-toggle span { width: 22px; height: 1.5px; }
+            nav { padding: 20px 6%; }
+            .menu-toggle { display: flex; }
+            
+            .nav-links {
+                position: fixed; top: 0; right: -100%;
+                width: 80%; height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                justify-content: center;
+                transition: var(--transition-smooth);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+            .nav-links.active { right: 0; }
+            .nav-item { font-size: 1.1rem; }
+            .nav-item span { font-size: 0.8rem; }
 
-    .nav-links {
-        position: fixed; 
-        top: 0; 
-        right: -100%; 
-        width: 100%; /* 全屏覆盖，增加沉浸感 */
-        height: 100vh;
-        background: radial-gradient(circle at top right, #151515, #050505); /* 增加渐变层次 */
-        flex-direction: column;
-        justify-content: center;
-        gap: 35px;
-        transition: var(--transition-smooth);
-        z-index: 1000;
-    }
+            .hero { background-attachment: scroll; } /* 移动端禁用视差防止卡顿 */
+            
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .work-grid { column-count: 1; } /* 手机端单列显示，增加力量感 */
+            
+            .section { padding: 60px 8%; }
+        }
 
-    .nav-links.active { right: 0; }
-
-    .nav-item {
-        font-size: 1.4rem; /* 增大字号 */
-        font-weight: 600;
-        letter-spacing: 4px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s ease;
-    }
-
-    /* 菜单展开时的文字入场动画 */
-    .nav-links.active .nav-item {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* 依次延迟显示 */
-    .nav-item:nth-child(1) { transition-delay: 0.1s; }
-    .nav-item:nth-child(2) { transition-delay: 0.2s; }
-    .nav-item:nth-child(3) { transition-delay: 0.3s; }
-    .nav-item:nth-child(4) { transition-delay: 0.4s; }
-    .nav-item:nth-child(5) { transition-delay: 0.5s; }
-
-    .nav-item span {
-        font-size: 0.85rem;
-        margin-top: 8px;
-        opacity: 0.4;
-    }
-
-    /* 移动端高亮项：去掉厚重的边框，改为色彩点缀 */
-    .nav-item.highlight {
-        background: transparent;
-        border: none;
-        padding: 0;
-        color: var(--accent); /* 直接用强调色区别 */
-    }
-    
-    .nav-item.highlight span {
-        color: var(--text-dim);
-    }
-
-    /* 移动端点击反馈 */
-    .nav-item:active {
-        transform: scale(0.95);
-        color: var(--accent);
-    }
-}
+        /* --- 模态框优化 --- */
         .modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center;
+            display: none; position: fixed; inset: 0; 
+            background: #000; z-index: 2000; 
+            align-items: center; justify-content: center;
         }
         .modal.active { display: flex; }
-        .modal-img { max-width: 90%; max-height: 85vh; object-fit: contain; }
-        .modal-close { position: absolute; top: 30px; right: 30px; font-size: 2rem; color: #fff; cursor: pointer; }
+        .modal-img { max-width: 90%; max-height: 80vh; object-fit: contain; }
+        .modal-close { position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #666; }
+
+        /* 汉堡菜单动画效果 */
+        .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; }
+        .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
     </style>
 </head>
 <body>
@@ -208,8 +180,8 @@
             <a href="#home" class="nav-item">Home<span>首頁</span></a>
             <a href="#about" class="nav-item">About<span>关于</span></a>
             <a href="#works" class="nav-item">Works<span>选集</span></a>
-            <a href="photography.html" class="nav-item highlight">Photography<span>摄影档案</span></a>
-            <a href="video.html" class="nav-item highlight">Video<span>动态影像</span></a>
+            <a href="photography.html" class="nav-item">Photography<span>摄影</span></a>
+            <a href="video.html" class="nav-item">Video<span>摄像</span></a>
         </div>
     </nav>
 
@@ -223,16 +195,16 @@
                 <img src="assets/images/hq.png" class="about-img" alt="Profile">
             </div>
             <div class="about-text">
-                <p style="color:var(--accent); font-weight:600; font-size:0.8rem; letter-spacing:4px; margin-bottom:10px;">PROFILO</p>
-                <h2 style="font-family:'Noto Serif SC'; font-size:2.5rem; margin-bottom:20px;">沁雪 / SEVEN</h2>
-                <p>視覺創作者。現居苏州。</p>
+                <p style="color:var(--accent); font-weight:600; font-size:0.7rem; letter-spacing:3px;">PROFILO</p>
+                <h2>李七 / SEVEN</h2>
+                <p>視覺創作者。現居東京。</p>
                 <p>專注於捕捉城市中被忽視的呼吸感。在寧缺毋濫的原則下，每一幀畫面都是對當下生活的一次誠實反饋。</p>
             </div>
         </div>
     </section>
 
     <section class="section" id="works">
-        <h2 style="font-family:'Noto Serif SC'; margin-bottom:40px; letter-spacing:4px; font-size:1.8rem;">Selected Works</h2>
+        <h2 style="font-family:'Noto Serif SC'; margin-bottom:40px; letter-spacing:4px;">Selected Works</h2>
         <div class="work-grid" id="workGrid"></div>
     </section>
 
@@ -242,6 +214,7 @@
     </div>
 
     <script>
+        // 渲染作品集[cite: 1]
         const works = [
             {src: "assets/images/IMG1.jpg"}, {src: "assets/images/IMG2.jpg"},
             {src: "assets/images/IMG3.jpg"}, {src: "assets/images/IMG4.jpg"},
@@ -249,18 +222,58 @@
         ];
 
         const grid = document.getElementById('workGrid');
-        grid.innerHTML = works.map(w => `<div class="work-card" onclick="openModal('${w.src}')"><img src="${w.src}" loading="lazy"></div>`).join('');
+        grid.innerHTML = works.map((w, i) => `
+            <div class="work-card" onclick="openModal('${w.src}')">
+                <img src="${w.src}" loading="lazy">
+            </div>
+        `).join('');
 
+        // 移动端菜单控制
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
-        menuBtn.onclick = () => { menuBtn.classList.toggle('open'); navLinks.classList.toggle('active'); };
         
-        window.onscroll = () => { document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 80); };
+        menuBtn.onclick = () => {
+            menuBtn.classList.toggle('open');
+            navLinks.classList.toggle('active');
+        };
 
+        // 点击导航项自动关闭菜单
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.onclick = () => {
+                menuBtn.classList.remove('open');
+                navLinks.classList.remove('active');
+            };
+        });
+
+        // 滚动效果
+        window.onscroll = () => {
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+        };
+
+        // 模态框逻辑
         const modal = document.getElementById('modal');
         const modalImg = document.getElementById('modalImage');
-        window.openModal = (src) => { modalImg.src = src; modal.classList.add('active'); document.body.style.overflow = 'hidden'; };
-        document.getElementById('closeBtn').onclick = () => { modal.classList.remove('active'); document.body.style.overflow = 'auto'; };
+        
+        window.openModal = (src) => {
+            modalImg.src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        document.getElementById('closeBtn').onclick = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        // 移动端手势：下滑关闭模态框
+        let startY = 0;
+        modal.ontouchstart = (e) => startY = e.touches[0].clientY;
+        modal.ontouchend = (e) => {
+            if (e.changedTouches[0].clientY - startY > 100) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        };
     </script>
 </body>
 </html>
